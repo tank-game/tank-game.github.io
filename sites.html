@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>All Roblox Games Codes & Scripts</title>
+  <link rel="canonical" href="https://tank-game.github.io/sites.html">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* subnav / header same style as codes.html */
+    .subnav {
+      display:flex;
+      justify-content:center;
+      gap:12px;
+      margin-top:10px;
+      flex-wrap:wrap;
+    }
+    .subnav a {
+      padding:8px 14px;
+      background:#1f2e23;
+      color:#ff5252;
+      text-decoration:none;
+      border-radius:10px;
+      border:3px solid #0a0a0a;
+      font-weight:700;
+      box-shadow: 3px 3px 0 rgba(0,0,0,0.5);
+    }
+
+    /* page layout */
+    .note {
+      max-width:1100px;
+      margin:18px auto 6px;
+      padding:0 12px;
+      color:#d0d0d0;
+    }
+
+    .grid {
+      max-width:1100px;
+      margin:8px auto 60px;
+      padding:12px;
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:14px;
+    }
+    @media(min-width:700px){ .grid { grid-template-columns: repeat(2, 1fr); } }
+    @media(min-width:1000px){ .grid { grid-template-columns: repeat(3, 1fr); } }
+
+    .site-card {
+      background: linear-gradient(180deg,#2a3f2f 0%, #1f2e23 100%);
+      border-radius:12px;
+      border:4px solid #0a0a0a;
+      padding:16px;
+      box-shadow:6px 6px 0 rgba(0,0,0,0.4);
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      align-items:flex-start;
+      min-height:140px;
+    }
+
+    .site-card h4 {
+      margin:0;
+      color:#e0e0e0;
+      text-shadow:1px 1px 0 #000;
+      font-size:1.1rem;
+    }
+    .site-card p {
+      margin:0;
+      color:#d0d0d0;
+      font-size:0.95rem;
+      line-height:1.35;
+    }
+
+    .card-actions {
+      margin-top:auto;
+      width:100%;
+      display:flex;
+      gap:10px;
+      justify-content:flex-start;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+
+    /* reuse button styles from index/codes (game-btn / alt) */
+    .game-btn {
+      background: #1976d2;
+      color: #fff;
+      padding: 10px 14px;
+      font-size: 1rem;
+      border-radius: 12px;
+      text-decoration: none;
+      border: 4px solid #0a0a0a;
+      box-shadow: 4px 4px 0px #0d47a1;
+      font-weight:800;
+      display:inline-block;
+      text-shadow:1px 1px 0 #000;
+    }
+    .game-btn.alt {
+      background: #d32f2f;
+      border-color: #0a0a0a;
+      box-shadow: 4px 4px 0px #7f1d1d;
+      color: #fff;
+    }
+
+    /* small responsiveness */
+    @media(max-width:520px){
+      .site-card { padding:12px; }
+      .game-btn, .game-btn.alt { padding:9px 12px; font-size:0.95rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>All Roblox Games Codes & Scripts</h1>
+    <h2>Tank Game Hub</h2>
+    <div class="subnav" aria-label="site links">
+      <a href="/">Home</a>
+      <a href="codes.html">Codes</a>
+      <a href="scripts.html">Scripts</a>
+    </div>
+  </header>
+
+  <main>
+    <p class="note">
+      Below are the Roblox game sites currently active. New sites will be added as they are created — bookmark this page to check for updates.
+    </p>
+
+    <section class="grid">
+      <article class="site-card">
+        <h4>Tank Game</h4>
+        <p>Codes, scripts and community resources for the Tank Game Roblox experience.</p>
+        <div class="card-actions">
+          <a class="game-btn alt" href="https://tank-game.github.io/">Open site</a>
+        </div>
+      </article>
+
+      <article class="site-card">
+        <h4>Ants Empire</h4>
+        <p>Codes, scripts and community resources for the Ants Empire Roblox experience.</p>
+        <div class="card-actions">
+          <a class="game-btn" href="https://ants-empire.github.io/">Open site</a>
+        </div>
+      </article>
+
+      <article class="site-card">
+        <h4>SpongeBob Tower Defense</h4>
+        <p>Promos, codes and curated content for SpongeBob Tower Defense.</p>
+        <div class="card-actions">
+          <a class="game-btn" href="https://spongebobtowerdefense.codes/">Open site</a>
+        </div>
+      </article>
+
+      <article class="site-card">
+        <h4>Raise Animals</h4>
+        <p>Codes, tips and script links for Raise Animals — community-maintained resources.</p>
+        <div class="card-actions">
+          <a class="game-btn alt" href="https://raiseanimals.codes/">Open site</a>
+        </div>
+      </article>
+
+      <article class="site-card">
+        <h4>Build-A-Zoo</h4>
+        <p>Resources and codes for Build-A-Zoo. New content will be added when available.</p>
+        <div class="card-actions">
+          <a class="game-btn" href="https://buildazoo.codes/">Open site</a>
+        </div>
+      </article>
+
+      <!-- Example block to copy when adding new sites later -->
+      <!--
+      <article class="site-card">
+        <h4>New Site Name</h4>
+        <p>Short description for the new site.</p>
+        <div class="card-actions">
+          <a class="game-btn alt" href="https://newsite.example/" target="_blank" rel="noopener">Open site</a>
+        </div>
+      </article>
+      -->
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 Tank Game Community – Not affiliated with Roblox.</p>
+  </footer>
+</body>
+</html>

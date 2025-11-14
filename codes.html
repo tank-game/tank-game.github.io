@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tank Game Codes (Active) - November 2025</title>
+  <link rel="canonical" href="https://tank-game.github.io/codes.html">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Page-specific tweaks that keep the same theme */
+    .subnav {
+      display:flex;
+      justify-content:center;
+      gap:12px;
+      margin-top:10px;
+    }
+    .subnav a {
+      padding:8px 14px;
+      background:#1f2e23;
+      color:#ff5252;
+      text-decoration:none;
+      border-radius:10px;
+      border:3px solid #0a0a0a;
+      font-weight:700;
+      box-shadow: 3px 3px 0 rgba(0,0,0,0.5);
+    }
+    .hero {
+      max-width:1100px;
+      margin: 18px auto;
+      padding:18px;
+      text-align:left;
+    }
+    .hero h1 { font-size:2rem; margin:0 0 6px; color:#e0e0e0; }
+    .hero p { margin:6px 0; line-height:1.5; color:#d0d0d0; }
+    .section-title {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin: 18px auto 8px;
+      max-width:1100px;
+      padding:0 12px;
+    }
+    .section-title h2 {
+      margin:0;
+      color:#ff5252;
+      text-shadow: 2px 2px 0 #000;
+      font-size:1.4rem;
+    }
+    .cards {
+      display:grid;
+      gap:14px;
+      grid-template-columns: repeat(1, 1fr);
+      max-width:1100px;
+      margin: 8px auto 24px;
+      padding:0 12px;
+    }
+    @media(min-width:700px){
+      .cards { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media(min-width:1000px){
+      .cards { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    /* Card */
+    .code-card {
+      background: linear-gradient(180deg,#2a3f2f 0%, #1f2e23 100%);
+      padding:14px;
+      border-radius:12px;
+      border:4px solid #0a0a0a;
+      box-shadow: 6px 6px 0 rgba(0,0,0,0.4);
+      position:relative;
+    }
+    .code-card .tag {
+      position:absolute;
+      top:10px;
+      right:10px;
+      padding:6px 8px;
+      border-radius:8px;
+      font-weight:800;
+      font-size:0.85rem;
+      color:#fff;
+      background:#d32f2f;
+      border:3px solid #0a0a0a;
+      text-shadow:1px 1px 0 #000;
+    }
+    .code-value {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-top:10px;
+      flex-wrap:wrap;
+    }
+    .code-badge {
+      font-family: "Courier New", monospace;
+      font-size:1.15rem;
+      padding:10px 12px;
+      border-radius:8px;
+      background:#1a1a1a;
+      border:3px solid #ff5252;
+      box-shadow: 3px 3px 0 rgba(0,0,0,0.5);
+      letter-spacing:1px;
+      font-weight:900;
+      color:#ff5252;
+    }
+    .reward {
+      margin-top:10px;
+      font-weight:700;
+      color:#b0b0b0;
+      text-shadow:1px 1px 0 #000;
+    }
+    .card-actions {
+      display:flex;
+      gap:8px;
+      margin-top:12px;
+      flex-wrap:wrap;
+    }
+    .btn-copy {
+      display:inline-block;
+      padding:10px 12px;
+      border-radius:10px;
+      background:#1976d2;
+      color:#fff;
+      text-decoration:none;
+      border:3px solid #0a0a0a;
+      box-shadow:4px 4px 0 #0d47a1;
+      font-weight:800;
+      cursor:pointer;
+      text-shadow:1px 1px 0 #000;
+    }
+    .btn-visit {
+      display:inline-block;
+      padding:10px 12px;
+      border-radius:10px;
+      background:#d32f2f;
+      color:#fff;
+      text-decoration:none;
+      border:3px solid #0a0a0a;
+      box-shadow:4px 4px 0 #7f1d1d;
+      font-weight:800;
+      text-shadow:1px 1px 0 #000;
+    }
+
+    /* Expired style */
+    .expired-list {
+      max-width:1100px;
+      margin:8px auto 60px;
+      padding:0 12px;
+    }
+    .expired-item {
+      background:#2a2a2a;
+      border-radius:10px;
+      padding:10px;
+      margin-bottom:10px;
+      border:3px dashed #555;
+      color:#888;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
+
+    /* Copy toast */
+    #toast {
+      position: fixed;
+      left:50%;
+      transform: translateX(-50%);
+      bottom:24px;
+      background: #1f2e23;
+      color:#ff5252;
+      padding:10px 16px;
+      border-radius:10px;
+      border:3px solid #0a0a0a;
+      display:none;
+      z-index:9999;
+      font-weight:800;
+      box-shadow:4px 4px 0 rgba(0,0,0,0.6);
+    }
+
+    /* FAQ and extra content */
+    .content-block {
+      max-width:1100px;
+      margin: 8px auto 40px;
+      padding:12px;
+      text-align:left;
+      color:#d0d0d0;
+    }
+
+    .content-block h3 {
+      color:#ff5252;
+      text-shadow:2px 2px 0 #000;
+    }
+
+    .hint {
+      display:inline-block;
+      background:#2a3f2f;
+      padding:6px 10px;
+      border-radius:8px;
+      border:3px solid #0a0a0a;
+      font-weight:800;
+      color:#b0b0b0;
+      margin-top:6px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🎮 Tank Game</h1>
+    <h2>Codes & Scripts Hub</h2>
+    <div class="subnav" aria-label="site links">
+      <a href="/">Home</a>
+      <a href="codes.html" aria-current="page">Codes</a>
+      <a href="scripts.html">Scripts</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="hero">
+      <h1>All Active Tank Game Codes (Redeem now)</h1>
+      <p>
+        Welcome to the central Tank Game code vault — this page contains the latest active promo codes, their rewards,
+        instructions for redeeming, and everything you need to get free XP, Gems, and upgrades for your tank.
+      </p>
+      <p class="hint">Tip: Click the <strong>Copy</strong> button on a code card to copy the code instantly and paste it into the game.</p>
+    </div>
+
+    <!-- Active codes -->
+    <div class="section-title">
+      <h2>Working Codes</h2>
+      <div style="font-size:0.95rem; color:#b0b0b0">Updated: <strong>November 2025</strong></div>
+    </div>
+
+    <div class="cards" aria-live="polite">
+      <!-- Card 1 -->
+      <article class="code-card" aria-label="Code RESTINPEACE">
+        <div class="tag">NEW</div>
+        <div>
+          <strong style="color:#e0e0e0">RESTINPEACE</strong>
+          <div class="reward">Reward: 15,000 XP</div>
+        </div>
+
+        <div class="code-value">
+          <div class="code-badge">RESTINPEACE</div>
+          <div class="card-actions">
+            <button class="btn-copy" data-code="RESTINPEACE" aria-label="Copy RESTINPEACE">Copy</button>
+            <a class="btn-visit" href="#redeem" onclick="document.querySelector('.content-block').scrollIntoView({behavior:'smooth'});return false;">How to Redeem</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 2 -->
+      <article class="code-card" aria-label="Code VERYHALLOW">
+        <div class="tag">NEW</div>
+        <div>
+          <strong style="color:#e0e0e0">VERYHALLOW</strong>
+          <div class="reward">Reward: 10,000 Gems</div>
+        </div>
+
+        <div class="code-value">
+          <div class="code-badge">VERYHALLOW</div>
+          <div class="card-actions">
+            <button class="btn-copy" data-code="VERYHALLOW" aria-label="Copy VERYHALLOW">Copy</button>
+            <a class="btn-visit" href="#redeem" onclick="document.querySelector('.content-block').scrollIntoView({behavior:'smooth'});return false;">How to Redeem</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 3 -->
+      <article class="code-card" aria-label="Code TRICKORTREAT">
+        <div class="tag">Active</div>
+        <div>
+          <strong style="color:#e0e0e0">TRICKORTREAT</strong>
+          <div class="reward">Reward: 15,000 Gems</div>
+        </div>
+
+        <div class="code-value">
+          <div class="code-badge">TRICKORTREAT</div>
+          <div class="card-actions">
+            <button class="btn-copy" data-code="TRICKORTREAT" aria-label="Copy TRICKORTREAT">Copy</button>
+            <a class="btn-visit" href="#redeem" onclick="document.querySelector('.content-block').scrollIntoView({behavior:'smooth'});return false;">How to Redeem</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 4 -->
+      <article class="code-card" aria-label="Code COOLIO">
+        <div class="tag">Active</div>
+        <div>
+          <strong style="color:#e0e0e0">COOLIO</strong>
+          <div class="reward">Reward: 3,000 Gems</div>
+        </div>
+
+        <div class="code-value">
+          <div class="code-badge">COOLIO</div>
+          <div class="card-actions">
+            <button class="btn-copy" data-code="COOLIO" aria-label="Copy COOLIO">Copy</button>
+            <a class="btn-visit" href="#redeem" onclick="document.querySelector('.content-block').scrollIntoView({behavior:'smooth'});return false;">How to Redeem</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 5 -->
+      <article class="code-card" aria-label="Code IAMGROUP">
+        <div class="tag">Active</div>
+        <div>
+          <strong style="color:#e0e0e0">IAMGROUP</strong>
+          <div class="reward">Reward: 10,000 XP</div>
+        </div>
+
+        <div class="code-value">
+          <div class="code-badge">IAMGROUP</div>
+          <div class="card-actions">
+            <button class="btn-copy" data-code="IAMGROUP" aria-label="Copy IAMGROUP">Copy</button>
+            <a class="btn-visit" href="#redeem" onclick="document.querySelector('.content-block').scrollIntoView({behavior:'smooth'});return false;">How to Redeem</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 6 -->
+      <article class="code-card" aria-label="Code DISCSPECIALXD">
+        <div class="tag">Active</div>
+        <div>
+          <strong style="color:#e0e0e0">DISCSPECIALXD</strong>
+          <div class="reward">Reward: 5,000 Gems</div>
+        </div>
+
+        <div class="code-value">
+          <div class="code-badge">DISCSPECIALXD</div>
+          <div class="card-actions">
+            <button class="btn-copy" data-code="DISCSPECIALXD" aria-label="Copy DISCSPECIALXD">Copy</button>
+            <a class="btn-visit" href="#redeem" onclick="document.querySelector('.content-block').scrollIntoView({behavior:'smooth'});return false;">How to Redeem</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 7 -->
+      <article class="code-card" aria-label="Code ALLCODESASPROMISED">
+        <div class="tag">Active</div>
+        <div>
+          <strong style="color:#e0e0e0">ALLCODESASPROMISED</strong>
+          <div class="reward">Reward: 20,000 XP</div>
+        </div>
+
+        <div class="code-value">
+          <div class="code-badge">ALLCODESASPROMISED</div>
+          <div class="card-actions">
+            <button class="btn-copy" data-code="ALLCODESASPROMISED" aria-label="Copy ALLCODESASPROMISED">Copy</button>
+            <a class="btn-visit" href="#redeem" onclick="document.querySelector('.content-block').scrollIntoView({behavior:'smooth'});return false;">How to Redeem</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 8 -->
+      <article class="code-card" aria-label="Code FINALLY">
+        <div class="tag">Active</div>
+        <div>
+          <strong style="color:#e0e0e0">FINALLY</strong>
+          <div class="reward">Reward: 2,500 Gems</div>
+        </div>
+
+        <div class="code-value">
+          <div class="code-badge">FINALLY</div>
+          <div class="card-actions">
+            <button class="btn-copy" data-code="FINALLY" aria-label="Copy FINALLY">Copy</button>
+            <a class="btn-visit" href="#redeem" onclick="document.querySelector('.content-block').scrollIntoView({behavior:'smooth'});return false;">How to Redeem</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 9 -->
+      <article class="code-card" aria-label="Code MEMORIES">
+        <div class="tag">Active</div>
+        <div>
+          <strong style="color:#e0e0e0">MEMORIES</strong>
+          <div class="reward">Reward: 2,500 Gems</div>
+        </div>
+
+        <div class="code-value">
+          <div class="code-badge">MEMORIES</div>
+          <div class="card-actions">
+            <button class="btn-copy" data-code="MEMORIES" aria-label="Copy MEMORIES">Copy</button>
+            <a class="btn-visit" href="#redeem" onclick="document.querySelector('.content-block').scrollIntoView({behavior:'smooth'});return false;">How to Redeem</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 10 -->
+      <article class="code-card" aria-label="Code RELEASE">
+        <div class="tag">Active</div>
+        <div>
+          <strong style="color:#e0e0e0">RELEASE</strong>
+          <div class="reward">Reward: 5,000 XP</div>
+        </div>
+
+        <div class="code-value">
+          <div class="code-badge">RELEASE</div>
+          <div class="card-actions">
+            <button class="btn-copy" data-code="RELEASE" aria-label="Copy RELEASE">Copy</button>
+            <a class="btn-visit" href="#redeem" onclick="document.querySelector('.content-block').scrollIntoView({behavior:'smooth'});return false;">How to Redeem</a>
+          </div>
+        </div>
+      </article>
+
+    </div> <!-- end cards -->
+
+    <!-- Expired codes -->
+    <div class="section-title">
+      <h2>Expired / Previous Codes</h2>
+      <div style="font-size:0.95rem; color:#b0b0b0">No expired codes yet</div>
+    </div>
+
+    <div class="expired-list" aria-live="polite">
+      <p style="font-size:0.95rem; color:#b0b0b0; margin-top:8px;">
+        As of now, there are no expired codes in the game, and you can redeem all of the above ones right away to get the rewards.
+        This section will be updated when codes expire.
+      </p>
+    </div>
+
+    <!-- How to redeem + FAQ -->
+    <section class="content-block" id="redeem">
+      <h3>How to Redeem Tank Game Codes</h3>
+      <ol>
+        <li>Launch <strong>Tank Game</strong> on Roblox.</li>
+        <li>Click the <strong>Blue Tick icon</strong> on the left side of the screen.</li>
+        <li>Enter a working code in the text box on the pop-up window (use the <em>Copy</em> button above).</li>
+        <li>Click the <strong>Redeem</strong> button to get all the rewards.</li>
+      </ol>
+
+      <h3>About Tank Game</h3>
+      <p>
+        Tank Game is a unique and exciting experience on Roblox, where you spawn as a small circular tank with a single turret. 
+        Once you spawn in the lobby, your primary goal is to hit the colorful cubes and other shapes to gain XP. Having gathered 
+        enough points, you'll be able to upgrade the puny tank. Whether it's giving the tank multiple turrets, changing your 
+        bullets to flame or freeze attacks, or even increasing the overall damage, regeneration power, bullet speed, and so on.
+      </p>
+      <p>
+        All these upgrades will eventually help you beat other powerful players in the arena. So, if you need a quick XP boost 
+        or want to get some gems for free, use the active Tank Game codes listed above.
+      </p>
+
+      <h3>How to Get More Tank Game Codes</h3>
+      <p>
+        We know that finding all the active codes in the game at the right moment can take a long time. And that is why we 
+        suggest you <strong>bookmark this page</strong> right away, so that you can check all the latest changes with just a single click.
+      </p>
+      <p>
+        Next, you can try joining the <strong>official Tank Game Discord server</strong>: 
+        <a href="https://discord.com/invite/WgCdbaMrrq" target="_blank" rel="noopener" style="color:#1976d2;">
+          https://discord.com/invite/WgCdbaMrrq
+        </a>. 
+        Here, you will find all the active codes in the 'codes' channel.
+      </p>
+      <p>
+        Lastly, we recommend that you join the <strong>official 7×3 group</strong> on the Roblox platform to get a very exclusive reward in the game.
+      </p>
+
+      <h3>Tank Game — Quick FAQ</h3>
+      <dl>
+        <dt style="color:#ff5252;font-weight:800;margin-top:10px;">What is Tank Game?</dt>
+        <dd>Tank Game is a Roblox simulator where you start as a weak tank and must destroy blocks and other tanks to earn XP. 
+        Level up to boost your stats and unlock powerful upgrades. But be careful—dying resets you to the weakest tank!</dd>
+
+        <dt style="color:#ff5252;font-weight:800;margin-top:10px;">Why do codes stop working?</dt>
+        <dd>Codes are frequently limited-time. They may expire after events, be single-use per account, or be replaced with new promotions.
+        Always type (or paste) codes exactly as shown.</dd>
+
+        <dt style="color:#ff5252;font-weight:800;margin-top:10px;">What rewards do codes give?</dt>
+        <dd>Tank Game codes offer varying amounts of Gems and significant amounts of XP—enough to level up by 10 or more levels instantly.
+        This helps you avoid the grind and compete with stronger players faster.</dd>
+
+        <dt style="color:#ff5252;font-weight:800;margin-top:10px;">Can I use codes multiple times?</dt>
+        <dd>No, each code can only be redeemed once per account. Make sure to claim all available codes to maximize your rewards.</dd>
+      </dl>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>© 2025 Tank Game Community — content curated for players. Not affiliated with Roblox.</p>
+  </footer>
+
+  <div id="toast" role="status" aria-live="polite">Copied!</div>
+
+  <script>
+    // Copy to clipboard logic with toast feedback
+    (function(){
+      const toast = document.getElementById('toast');
+
+      function showToast(msg='Copied!') {
+        toast.textContent = msg;
+        toast.style.display = 'block';
+        toast.style.opacity = '1';
+        clearTimeout(window._toastTimer);
+        window._toastTimer = setTimeout(()=>{
+          toast.style.opacity = '0';
+          setTimeout(()=> toast.style.display = 'none', 300);
+        }, 1600);
+      }
+
+      document.querySelectorAll('.btn-copy').forEach(btn=>{
+        btn.addEventListener('click', async (e)=>{
+          const code = btn.getAttribute('data-code') || '';
+          if(!code) return;
+          try {
+            await navigator.clipboard.writeText(code);
+            showToast('Code copied: ' + code.toUpperCase());
+            // Small visual feedback on the button
+            const old = btn.textContent;
+            btn.textContent = 'Copied!';
+            setTimeout(()=> btn.textContent = old, 1200);
+          } catch(err) {
+            // fallback
+            const ta = document.createElement('textarea');
+            ta.value = code;
+            document.body.appendChild(ta);
+            ta.select();
+            try { document.execCommand('copy'); showToast('Code copied: ' + code.toUpperCase()); }
+            catch(e){ showToast('Copy failed — select manually'); }
+            document.body.removeChild(ta);
+          }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

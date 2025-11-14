@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tank Game Scripts – Auto Farm & Auto Fire Roblox 2025</title>
+  <link rel="canonical" href="https://tank-game.github.io/scripts.html">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="stylesheet" href="style.css">
+  <style>
+  .subnav {
+    display:flex;
+    justify-content:center;
+    gap:12px;
+    margin-top:10px;
+    flex-wrap:wrap;
+  }
+  .subnav a {
+    padding:8px 14px;
+    background:#1f2e23;
+    color:#ff5252;
+    text-decoration:none;
+    border-radius:10px;
+    border:3px solid #0a0a0a;
+    font-weight:700;
+    box-shadow: 3px 3px 0 rgba(0,0,0,0.5);
+  }
+
+  .hero {
+    max-width:1100px;
+    margin: 18px auto;
+    padding:18px;
+    text-align:left;
+  }
+  .hero h1 { font-size:2rem; margin:0 0 6px; color:#e0e0e0; }
+  .hero p { margin:6px 0; line-height:1.45; color:#d0d0d0; }
+
+  /* container & layout */
+  .container {
+    max-width:1100px;
+    margin: 8px auto 40px;
+    padding: 0 12px;
+    display:grid;
+    gap:18px;
+  }
+
+  /* default single-column for small screens (prevents overflow) */
+  .container { grid-template-columns: 1fr; }
+
+  @media(min-width:900px){
+    /* two columns on larger screens */
+    .container { grid-template-columns: 1fr 360px; }
+  }
+
+  .card {
+    background: linear-gradient(180deg,#2a3f2f 0%, #1f2e23 100%);
+    padding:14px;
+    border-radius:12px;
+    border:4px solid #0a0a0a;
+    box-shadow: 6px 6px 0 rgba(0,0,0,0.4);
+    overflow:hidden;
+    word-wrap:break-word;
+    -webkit-font-smoothing:antialiased;
+    margin-bottom:16px;
+  }
+
+  .card h3 {
+    color:#ff5252;
+    text-shadow:2px 2px 0 #000;
+    margin-top:0;
+  }
+
+  .feature-list {
+    list-style:none;
+    padding:0;
+    margin:8px 0 0;
+  }
+  .feature-list li {
+    padding:8px;
+    margin-bottom:8px;
+    background: rgba(0,0,0,0.3);
+    border-radius:8px;
+    font-weight:700;
+    border:3px solid rgba(255,82,82,0.1);
+    color:#d0d0d0;
+  }
+
+  /* Improved script block: wraps, supports touch scrolling, and limited height on phones */
+  .script-block {
+    background:#0a0a0a;
+    color:#00ff00;
+    padding:12px;
+    border-radius:10px;
+    font-family: "Courier New", monospace;
+    font-size:0.92rem;
+    max-height:360px;            /* desktop/tablet */
+    overflow:auto;
+    border:4px solid #ff5252;
+    white-space: pre-wrap;       /* allow wrapping of long lines */
+    overflow-wrap: anywhere;     /* break long tokens to prevent overflow */
+    -webkit-overflow-scrolling: touch; /* smooth scrolling on iOS */
+    word-break:break-word;
+  }
+
+  /* Reduce script block height on small screens to avoid giant vertical scrolls */
+  @media (max-width:420px) {
+    .script-block {
+      max-height:240px;
+      font-size:0.88rem;
+      padding:10px;
+    }
+  }
+
+  .script-actions {
+    margin-top:10px;
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+
+  .btn-copy, .btn-download {
+    display:inline-block;
+    padding:10px 12px;
+    border-radius:10px;
+    background:#1976d2;
+    color:#fff;
+    text-decoration:none;
+    border:3px solid #0a0a0a;
+    box-shadow:4px 4px 0 #0d47a1;
+    font-weight:800;
+    cursor:pointer;
+    min-width:110px;    /* makes buttons consistent but not too wide */
+    text-align:center;
+    text-shadow:1px 1px 0 #000;
+  }
+
+  .btn-download {
+    background:#d32f2f;
+    color:#fff;
+    border:3px solid #0a0a0a;
+    box-shadow:4px 4px 0 #7f1d1d;
+  }
+
+  .small {
+    font-size:0.95rem;
+    color:#d0d0d0;
+  }
+
+  /* toast */
+  #toast {
+    position: fixed;
+    left:50%;
+    transform: translateX(-50%);
+    bottom:24px;
+    background: #1f2e23;
+    color:#ff5252;
+    padding:10px 16px;
+    border-radius:10px;
+    border:3px solid #0a0a0a;
+    display:none;
+    z-index:9999;
+    font-weight:800;
+    box-shadow:4px 4px 0 rgba(0,0,0,0.6);
+  }
+
+  /* prevent header/footer from causing horizontal scroll */
+  body, html {
+    overflow-x: hidden;
+  }
+
+  /* small visual tweaks for very small screens */
+  @media (max-width:360px) {
+    .subnav a { padding:6px 10px; font-size:0.85rem; }
+    .hero h1 { font-size:1.4rem; }
+    .hero p { font-size:0.95rem; }
+    .btn-copy, .btn-download { min-width:90px; padding:8px 10px; font-size:0.9rem; }
+  }
+
+  /* Feature table styling */
+  .feature-table {
+    width:100%;
+    border-collapse:collapse;
+    margin:12px 0;
+    background:rgba(0,0,0,0.3);
+    border-radius:8px;
+    overflow:hidden;
+  }
+  
+  .feature-table th {
+    background:#d32f2f;
+    color:#fff;
+    padding:10px;
+    text-align:left;
+    font-weight:800;
+    border-bottom:3px solid #0a0a0a;
+  }
+  
+  .feature-table td {
+    padding:10px;
+    color:#d0d0d0;
+    border-bottom:1px solid rgba(255,82,82,0.1);
+  }
+  
+  .feature-table tr:last-child td {
+    border-bottom:none;
+  }
+
+  .warning-box {
+    background:#3d1f1f;
+    border:3px solid #d32f2f;
+    border-radius:10px;
+    padding:12px;
+    margin:12px 0;
+    color:#ff9999;
+    font-weight:700;
+  }
+</style>
+</head>
+<body>
+  <header>
+    <h1>🎮 Tank Game</h1>
+    <h2>Codes & Scripts Hub</h2>
+    <div class="subnav" aria-label="site links">
+      <a href="/">Home</a>
+      <a href="codes.html">Codes</a>
+      <a href="scripts.html" aria-current="page">Scripts</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="hero">
+      <h1>Tank Game Scripts Collection (November 2025)</h1>
+      <p>
+        Here are the latest Tank Game Scripts to help you get ahead! These scripts provide powerful tools like Auto Fire, 
+        Infinite Health, ESP, and more. Each script can be copied to your clipboard or downloaded as a `.lua` file.
+      </p>
+      <div class="warning-box">
+        ⚠️ <strong>Important:</strong> Always use scripts at your own risk — test in private servers and be aware of Roblox's rules. 
+        Using scripts in public matches can result in bans.
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- left: scripts -->
+      <div>
+        <!-- Script 1 -->
+        <div class="card" aria-label="Tank Game Script 1">
+          <h3>Script 1 — Auto Damage, Tank Speed, Max Health</h3>
+          <p class="small">This script lets you deal higher damage, increase tank speed, and boost your tank's maximum health during battles.</p>
+
+          <table class="feature-table">
+            <thead>
+              <tr>
+                <th>Feature</th>
+                <th>Effects</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Auto Damage</strong></td>
+                <td>Fires automatically to maximize your damage output.</td>
+              </tr>
+              <tr>
+                <td><strong>Tank Speed</strong></td>
+                <td>Increases your tank's movement speed dramatically.</td>
+              </tr>
+              <tr>
+                <td><strong>Max Health</strong></td>
+                <td>Gives your tank the highest durability possible.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h4 style="margin-top:8px; margin-bottom:6px; color:#b0b0b0;">Script</h4>
+          <div class="script-block" id="script1">loadstring(game:HttpGet("https://raw.githubusercontent.com/gumanba/Scripts/refs/heads/main/TankGame", true))()</div>
+
+          <div class="script-actions">
+            <button class="btn-copy" data-target="script1">Copy Script</button>
+            <button class="btn-download" data-target="script1" data-filename="tank_game_auto_damage.lua">Download .lua</button>
+          </div>
+        </div>
+
+        <!-- Script 2 -->
+        <div class="card" aria-label="Tank Game Script 2">
+          <h3>Script 2 — AirFlow Hub (Auto Farm, Auto Claim, Auto Buy)</h3>
+          <p class="small">This script helps in farming automatically, claiming rewards, and purchasing upgrades without effort.</p>
+
+          <table class="feature-table">
+            <thead>
+              <tr>
+                <th>Feature</th>
+                <th>Effects</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Auto Farm</strong></td>
+                <td>Collects kills and coins automatically for you.</td>
+              </tr>
+              <tr>
+                <td><strong>Auto Claim</strong></td>
+                <td>Instantly claims all daily and match rewards.</td>
+              </tr>
+              <tr>
+                <td><strong>Auto Buy</strong></td>
+                <td>Buys tank upgrades and weapons instantly.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h4 style="margin-top:8px; margin-bottom:6px; color:#b0b0b0;">Script</h4>
+          <div class="script-block" id="script2">loadstring(game:HttpGet("https://airflowscript.com/loader"))()</div>
+
+          <div class="script-actions">
+            <button class="btn-copy" data-target="script2">Copy Script</button>
+            <button class="btn-download" data-target="script2" data-filename="tank_game_airflow_hub.lua">Download .lua</button>
+          </div>
+        </div>
+
+        <!-- Script 3 -->
+        <div class="card" aria-label="Tank Game Script 3">
+          <h3>Script 3 — Tbao Hub (Auto Dodge, Dupe, Teleport Tank)</h3>
+          <p class="small">This script provides auto dodging, duplication, and teleport features that help in outplaying enemies.</p>
+
+          <table class="feature-table">
+            <thead>
+              <tr>
+                <th>Feature</th>
+                <th>Effects</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Auto Dodge</strong></td>
+                <td>Automatically moves your tank to avoid enemy shells.</td>
+              </tr>
+              <tr>
+                <td><strong>Dupe</strong></td>
+                <td>Duplicates selected resources for faster upgrades.</td>
+              </tr>
+              <tr>
+                <td><strong>Teleport Tank</strong></td>
+                <td>Teleports your tank instantly to any point on the map.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h4 style="margin-top:8px; margin-bottom:6px; color:#b0b0b0;">Script</h4>
+          <div class="script-block" id="script3">loadstring(game:HttpGet("https://raw.githubusercontent.com/tbao143/thaibao/refs/heads/main/TbaoHub"))()</div>
+
+          <div class="script-actions">
+            <button class="btn-copy" data-target="script3">Copy Script</button>
+            <button class="btn-download" data-target="script3" data-filename="tank_game_tbao_hub.lua">Download .lua</button>
+          </div>
+        </div>
+
+        <!-- Script 4 -->
+        <div class="card" aria-label="Tank Game Script 4">
+          <h3>Script 4 — Free Script (Auto Farm, Infinite Money, Auto Buy)</h3>
+          <p class="small">This script helps in farming automatically, gaining infinite money, and purchasing upgrades instantly.</p>
+
+          <table class="feature-table">
+            <thead>
+              <tr>
+                <th>Feature</th>
+                <th>Effects</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Auto Farm</strong></td>
+                <td>Collects XP and kills continuously without manual play.</td>
+              </tr>
+              <tr>
+                <td><strong>Infinite Money</strong></td>
+                <td>Adds endless in-game currency for easy progress.</td>
+              </tr>
+              <tr>
+                <td><strong>Auto Buy</strong></td>
+                <td>Purchases all available tank upgrades instantly.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h4 style="margin-top:8px; margin-bottom:6px; color:#b0b0b0;">Script</h4>
+          <div class="script-block" id="script4">loadstring(game:HttpGet('https://raw.githubusercontent.com/ATGFAIL/ATGHub/main/Raise-Animals.lua'))()</div>
+
+          <div class="script-actions">
+            <button class="btn-copy" data-target="script4">Copy Script</button>
+            <button class="btn-download" data-target="script4" data-filename="tank_game_free_script.lua">Download .lua</button>
+          </div>
+        </div>
+
+        <!-- Script 5 -->
+        <div class="card" aria-label="Tank Game Script 5">
+          <h3>Script 5 — No Key Script (Auto Farm, Auto Swap, Infinite Money)</h3>
+          <p class="small">This script provides automatic farming, tank swapping, and infinite money functions that improve your gameplay.</p>
+
+          <table class="feature-table">
+            <thead>
+              <tr>
+                <th>Feature</th>
+                <th>Effects</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Auto Farm</strong></td>
+                <td>Farms resources and damage stats automatically.</td>
+              </tr>
+              <tr>
+                <td><strong>Auto Swap</strong></td>
+                <td>Switches between tanks for better performance.</td>
+              </tr>
+              <tr>
+                <td><strong>Infinite Money</strong></td>
+                <td>Adds unlimited in-game money for upgrades.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h4 style="margin-top:8px; margin-bottom:6px; color:#b0b0b0;">Script</h4>
+          <div class="script-block" id="script5">loadstring(game:HttpGet("https://raw.githubusercontent.com/xwwwwwwwwwwwwwwwwwwwqd/loader/main/GamesData/RaiseAnimals.lua"))()</div>
+
+          <div class="script-actions">
+            <button class="btn-copy" data-target="script5">Copy Script</button>
+            <button class="btn-download" data-target="script5" data-filename="tank_game_no_key.lua">Download .lua</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- right: details / warnings -->
+      <aside>
+        <div class="card">
+          <h3>What Is A Tank Game Script</h3>
+          <p class="small">
+            A Tank Game script is a Lua-based code that gives you powerful features inside the experience. You will get access to 
+            a custom GUI that includes options like ESP, Auto Farm, Auto Complete, and more.
+          </p>
+          <p class="small">
+            Once you activate the script using an executor, it will do all the hard work for you. However, to avoid getting banned, 
+            you should use these scripts in private servers only and never abuse them in public matches.
+          </p>
+
+          <h3 style="margin-top:16px;">Key Features</h3>
+          <table class="feature-table">
+            <thead>
+              <tr>
+                <th>Feature</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Auto Fire</strong></td>
+                <td>Automatically fires your tank's cannon at nearby enemies.</td>
+              </tr>
+              <tr>
+                <td><strong>Infinite Health</strong></td>
+                <td>Keeps your tank indestructible against any attacks.</td>
+              </tr>
+              <tr>
+                <td><strong>ESP Tanks</strong></td>
+                <td>Shows all enemy tanks' positions through terrain.</td>
+              </tr>
+              <tr>
+                <td><strong>No Reload</strong></td>
+                <td>Removes reload delay to fire continuously.</td>
+              </tr>
+              <tr>
+                <td><strong>Teleport</strong></td>
+                <td>Moves your tank instantly to any chosen spot.</td>
+              </tr>
+              <tr>
+                <td><strong>Fly Mode</strong></td>
+                <td>Lets tanks hover over ground and avoid terrain.</td>
+              </tr>
+              <tr>
+                <td><strong>Bypass</strong></td>
+                <td>Prevents the anti-cheat from detecting script execution.</td>
+              </tr>
+              <tr>
+                <td><strong>No Key</strong></td>
+                <td>Loads the script directly without key authentication.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card" style="margin-top:16px;">
+          <h3>How To Use Scripts</h3>
+          <p class="small">
+            You can use Tank Game scripts by following these steps carefully. You need to install a safe executor like 
+            Delta, Synapse X, KRNL, or Fluxus. After setup, simply launch Roblox and join the Tank Game experience.
+          </p>
+
+          <ol class="small" style="padding-left:20px;">
+            <li style="margin-bottom:8px;"><strong>Download Executor:</strong> Use Synapse X, KRNL, or Fluxus. Disable antivirus if it blocks the tool.</li>
+            <li style="margin-bottom:8px;"><strong>Install & Set Up:</strong> Complete the installation and unlock with a key if required.</li>
+            <li style="margin-bottom:8px;"><strong>Join A Server:</strong> Load into the Roblox Tank Game experience.</li>
+            <li style="margin-bottom:8px;"><strong>Inject Executor:</strong> Press "Inject" to link the executor with Roblox.</li>
+            <li style="margin-bottom:8px;"><strong>Paste Script:</strong> Copy and paste a trusted Tank Game script into the executor window.</li>
+            <li style="margin-bottom:8px;"><strong>Execute:</strong> Click "Execute" to activate the script instantly in your game.</li>
+          </ol>
+
+          <div class="warning-box" style="margin-top:12px;">
+            ⚠️ If Roblox's anti-exploit system flags you using a Tank Game Script, you could face a temporary ban.
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:16px;">
+          <h3>Frequently Asked Questions</h3>
+          
+          <p class="small" style="margin-top:12px;">
+            <strong style="color:#ff5252;">Q: Can Auto Fire target enemies behind cover?</strong><br>
+            No. Auto Fire works only when enemies are in your tank's sightline. You need to move or adjust your aim to hit hidden targets.
+          </p>
+
+          <p class="small" style="margin-top:12px;">
+            <strong style="color:#ff5252;">Q: Does Infinite Health make your tank unbeatable?</strong><br>
+            Almost. Infinite Health keeps your tank alive against most hits. However, direct hits from special weapons can still cause damage.
+          </p>
+
+          <p class="small" style="margin-top:12px;">
+            <strong style="color:#ff5252;">Q: Will Fly Mode affect your shooting accuracy?</strong><br>
+            Yes. Flying changes your aim angle slightly. You need to adjust your turret position for accurate shots.
+          </p>
+
+          <p class="small" style="margin-top:12px;">
+            <strong style="color:#ff5252;">Q: Can you teleport across the map instantly during fights?</strong><br>
+            Yes. Teleport lets you move anywhere right away. Use it wisely to dodge attacks or surprise enemies.
+          </p>
+
+          <p class="small" style="margin-top:12px;">
+            <strong style="color:#ff5252;">Q: Does ESP Tanks work in every map type?</strong><br>
+            Yes. ESP Tanks highlights enemies across all maps. You can track them even through terrain and obstacles.
+          </p>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2025 Tank Game Community — scripts shared by the community. Not affiliated with Roblox.</p>
+  </footer>
+
+  <div id="toast" role="status" aria-live="polite">Copied!</div>
+
+  <script>
+    // Copy and Download logic (works offline, generates .lua download)
+    (function(){
+      const toast = document.getElementById('toast');
+
+      function showToast(msg='Copied!') {
+        toast.textContent = msg;
+        toast.style.display = 'block';
+        toast.style.opacity = '1';
+        clearTimeout(window._toastTimer);
+        window._toastTimer = setTimeout(()=>{
+          toast.style.opacity = '0';
+          setTimeout(()=> toast.style.display = 'none', 300);
+        }, 1600);
+      }
+
+      // copy handler
+      document.querySelectorAll('.btn-copy').forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+          const targetId = btn.getAttribute('data-target');
+          const el = document.getElementById(targetId);
+          if(!el) return;
+          const text = el.textContent || el.innerText || '';
+          if(navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(()=>{
+              showToast('Script copied to clipboard');
+              const old = btn.textContent;
+              btn.textContent = 'Copied!';
+              setTimeout(()=> btn.textContent = old, 1200);
+            }).catch(()=> fallbackCopy(text));
+          } else {
+            fallbackCopy(text);
+          }
+
+          function fallbackCopy(txt){
+            const ta = document.createElement('textarea');
+            ta.value = txt;
+            document.body.appendChild(ta);
+            ta.select();
+            try {
+              document.execCommand('copy');
+              showToast('Script copied to clipboard');
+            } catch(e) {
+              showToast('Copy failed — select manually');
+            }
+            document.body.removeChild(ta);
+          }
+        });
+      });
+
+      // download handler
+      document.querySelectorAll('.btn-download').forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+          const targetId = btn.getAttribute('data-target');
+          const filename = btn.getAttribute('data-filename') || 'script.lua';
+          const el = document.getElementById(targetId);
+          if(!el) return;
+          const text = el.textContent || el.innerText || '';
+          const blob = new Blob([text], {type: 'text/plain;charset=utf-8'});
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = filename;
+          document.body.appendChild(a);
+          a.click();
+          setTimeout(()=>{
+            URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+          }, 250);
+          showToast('Download started: ' + filename);
+        });
+      });
+
+    })();
+  </script>
+</body>
+</html>
